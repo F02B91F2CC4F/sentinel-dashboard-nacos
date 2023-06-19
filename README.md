@@ -1,5 +1,7 @@
 # Sentinel-Dashboard-Nacos
 
+原始博客地址：[https://www.cnblogs.com/cndarren/p/16197684.html](https://www.cnblogs.com/cndarren/p/16197684.html)
+
 ## 0.配置项
 
 | 配置项          | 说明                            | 默认值         |
