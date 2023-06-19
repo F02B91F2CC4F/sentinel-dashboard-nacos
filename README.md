@@ -4,6 +4,9 @@
 
 ## 0.配置项
 
+- 下载sentinel-dashboard-nacos-1.8.1.jar
+- 修改application.properties
+
 | 配置项          | 说明                            | 默认值         |
 | --------------- | ------------------------------- | -------------- |
 | auth.username   | sentinel登录的用户名            | sentinel       |
@@ -29,8 +32,6 @@ services:
     image: sentinel-dashboard-nacos:1.8.1
     container_name: sentinel-dashboard-nacos
     restart: always
-    environment:
-      JAVA_OPTS: "-Dserver.port=8080 -Dcsp.sentinel.dashboard.server=localhost:8080 -Dproject.name=sentinel-dashboard -Dnacos.serverAddr=10.3.144.231:8848 -Dnacos.namespace=sentinel-nacos"
     ports: #避免出现端口映射错误，建议采用字符串格式 8080端口为Dockerfile中EXPOSE端口
       - "8858:8080"
     volumes:
