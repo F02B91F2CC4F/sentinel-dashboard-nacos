@@ -14,8 +14,40 @@
 
 ## 1.部署
 
-```yml
+- 下载`sentinel-dashboard-nacos-1.8.1.jar`
 
+`docker-compose.yml`
+
+```yml
+version: "3"
+services:
+  # 流量防卫兵
+  sentinel-dashboard:
+    build: ./
+    image: sentinel-dashboard-nacos:1.8.1
+    container_name: sentinel-dashboard-nacos
+    restart: always
+    environment:
+      JAVA_OPTS: "-Dserver.port=8080 -Dcsp.sentinel.dashboard.server=localhost:8080 -Dproject.name=sentinel-dashboard -Dnacos.serverAddr=10.3.144.231:8848 -Dnacos.namespace=sentinel-nacos"
+    ports: #避免出现端口映射错误，建议采用字符串格式 8080端口为Dockerfile中EXPOSE端口
+      - "8858:8080"
+    volumes:
+      - "./sentinel/logs:/root/logs"
+```
+
+`Dockerfile`
+
+```
+# 运行环境 java 8
+FROM java:8
+# 切换到目录/usr/local
+WORKDIR /usr/local
+# 复制./sentinel-dashboard-nacos-1.8.1.jar 到容器
+ADD ./sentinel-dashboard-nacos-1.8.1.jar .
+# 运行jar文件
+CMD ["java","-jar","sentinel-dashboard-nacos-1.8.1.jar"]
+# 工程暴露的端口
+EXPOSE 8080
 ```
 
 ## 2.集成到项目
@@ -23,6 +55,13 @@
 - 导入依赖
 
 ```xml
-
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+        </dependency>
 ```
 
